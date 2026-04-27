@@ -1,0 +1,78 @@
+/* GRID LAYOUT */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+
+/* CARD */
+.card {
+  display: block;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* HOVER EFFECT */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* FLAG IMAGE */
+.card__flag {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+
+/* BODY */
+.card__body {
+  padding: 1.5rem;
+}
+
+
+/* COUNTRY NAME */
+.card__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+
+/* TEXT */
+.card__body p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.3rem 0;
+}
+
+
+/* LABEL (Population, Region, etc.) */
+.card__body p span {
+  font-weight: 600;
+  color: #333;
+}
+
+
+/* STATUS TEXT (Loading / Empty / Error) */
+.home__status {
+  padding: 2rem;
+  color: #666;
+}
+
+
+/* ERROR STATE */
+.home__status--error {
+  color: red;
+}
