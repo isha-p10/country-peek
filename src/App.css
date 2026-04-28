@@ -165,4 +165,39 @@
   .country-page__details {
     grid-template-columns: 1fr;
   }
+
+
+}
+/* Favourite Button */
+.fav-btn {
+  margin-top: 0.75rem;          /* pushes it below card info */
+  align-self: flex-start;       /* keeps it aligned left inside flex column */
+
+  background: none;             /* reset default button styles */
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+
+  color: #666;                  /* muted default color */
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+/* hover effect */
+.fav-btn:hover {
+  color: #333;
+  transform: scale(1.05);
+}
+
+/* active/saved state */
+.fav-btn--saved {
+  color: #e63946;               /* red tone for saved */
+  font-weight: 500;
+}
+
+/* optional: stronger hover when saved */
+.fav-btn--saved:hover {
+  color: #c1121f;
 }

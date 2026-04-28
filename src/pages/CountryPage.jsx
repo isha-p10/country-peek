@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useCountry from "../hooks/useCountry";
+import useCountries from "../hooks/useCountries";
 import "../styles/App.css";
 
 function CountryPage() {
@@ -10,7 +10,7 @@ function CountryPage() {
   const navigate = useNavigate();
 
   // 3. Custom hook
-  const { country, loading, error } = useCountry(code);
+  const { country, loading, error } = useCountries(code);
 
   // 4. Loading state
   if (loading) {
