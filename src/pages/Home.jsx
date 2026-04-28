@@ -1,81 +1,51 @@
-import { useState, useEffect } from "react";
-import SearchBar from "../components/SearchBar";
-import CountryCard from "../components/CountryCard";
+import { useState } from 'react'
+import FilterBar from '../components/FilterBar'
+// (keep your existing imports like SearchBar, CountryCard, etc.)
 
-function Home() {
-  const [query, setQuery] = useState("");
+function Home({ countries }) {
 
-  // 1. State
-  const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // 1. state
+  const [region, setRegion] = useState('All')
+  const [sortBy, setSortBy] = useState('')
 
-  useEffect(() => {
-    // 2. If query is empty → reset everything
-    if (!query.trim()) {
-      setCountries([]);
-      setError(null);
-      return;
-    }
-
-    // 3. Debounce (400ms)
-    const timer = setTimeout(() => {
-      const fetchCountries = async () => {
-        try {
-          setLoading(true);
-
-          const res = await fetch(
-            `https://restcountries.com/v3.1/name/${query}`
-          );
-
-          if (!res.ok) {
-            throw new Error("No countries found");
-          }
-
-          const data = await res.json();
-
-          setCountries(data);
-          setError(null);
-        } catch (err) {
-          setCountries([]);
-          setError(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchCountries();
-    }, 400);
-
-    // 4. Cleanup (important)
-    return () => clearTimeout(timer);
-  }, [query]);
+  // 3. derived data (IMPORTANT: not stored in state)
+  const displayed = countries
+    .filter((country) => {
+      // show all OR match region
+      return region === 'All' || country.region === region
+    })
+    .sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.name.common.localeCompare(b.name.common)
+      }
+      if (sortBy === 'population') {
+        return b.population - a.population
+      }
+      return 0 // default (no sorting)
+    })
 
   return (
-    <div className="home">
-      <SearchBar query={query} onQueryChange={setQuery} />
+    <div>
 
-      {/* 5. Loading */}
-      {loading && <p>Loading...</p>}
+      {/* your existing SearchBar */}
+      
+      {/* 2. FilterBar */}
+      <FilterBar
+        region={region}
+        onRegionChange={setRegion}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+      />
 
-      {/* 6. Error */}
-      {error && <p>{error}</p>}
+      {/* 4. render displayed instead of countries */}
+      <div className="cards-grid">
+        {displayed.map((country) => (
+          <CountryCard key={country.cca3} country={country} />
+        ))}
+      </div>
 
-      {/* 7. Show countries */}
-      {!loading && !error && countries.length > 0 && (
-        <div className="cards-grid">
-          {countries.map((country) => (
-            <CountryCard key={country.cca3} country={country} />
-          ))}
-        </div>
-      )}
-
-      {/* 8. Empty state */}
-      {!loading && !error && countries.length === 0 && !query && (
-        <p>Start searching to explore countries.</p>
-      )}
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
